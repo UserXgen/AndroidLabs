@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<TextView
+		android:id="@+id/text_view1"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentStart="true"
+		android:layout_alignParentTop="true"
+		android:layout_centerHorizontal="true"
+		android:layout_gravity="center"
+		android:layout_marginStart="72dp"
+		android:layout_marginTop="222dp"
+		android:text="Нажмите кнопку"
+		android:textSize="34sp" />
+
+	<Button
+		android:id="@+id/button2"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentEnd="true"
+		android:layout_gravity="bottom"
+		android:layout_marginTop="400dp"
+		android:layout_marginEnd="30dp"
+		android:text="Нет меня!111" />
+
+	<Button
+		android:id="@+id/button1"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentStart="true"
+		android:layout_alignParentTop="true"
+		android:layout_gravity="bottom"
+		android:layout_marginStart="30dp"
+		android:layout_marginTop="400dp"
+		android:text="Нажми меня!" />
+
+</RelativeLayout>
