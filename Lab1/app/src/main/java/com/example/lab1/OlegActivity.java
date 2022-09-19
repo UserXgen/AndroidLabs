@@ -40,12 +40,8 @@ public class OlegActivity extends Activity {
             button1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     //button1.setText("НАЖАТО!");
-
                     click1();
-
-
                 }
 
             });
@@ -53,7 +49,6 @@ public class OlegActivity extends Activity {
             button2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //button1.setText("НАЖАТО!");
                     click2();
                 }
 
