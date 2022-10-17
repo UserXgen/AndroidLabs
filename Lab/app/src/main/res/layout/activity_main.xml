@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/Login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Авторизация"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/user_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/Login"
+        android:layout_marginTop="75dp"
+        android:layout_marginLeft="10dp"
+        android:text="Пользователь:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/edit_user"
+        android:layout_width="184dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/user_text"
+        android:layout_marginLeft="45dp"
+        android:layout_marginBottom="-12dp"
+        android:layout_toRightOf="@+id/user_text"
+        android:hint="введите имя "
+        android:textAlignment="center">
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/password_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/user_text"
+        android:layout_below="@+id/user_text"
+        android:layout_marginTop="40dp"
+        android:text="Пароль:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/edit_password"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/edit_user"
+        android:layout_alignRight="@+id/edit_user"
+        android:layout_alignBottom="@+id/password_text"
+        android:layout_marginLeft="-3dp"
+        android:layout_marginRight="-3dp"
+        android:layout_marginBottom="-6dp"
+        android:hint="введите пароль"
+        android:inputType="textPassword"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/attempts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/password_text"
+        android:layout_alignLeft="@+id/password_text"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="33dp"
+        android:text="Попыток:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/button_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_password"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="82dp"
+        android:backgroundTint="@android:color/holo_blue_light"
+        android:onClick="Login"
+        android:text="Войти"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/number_of_attempts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/user_text"
+        android:layout_alignTop="@+id/attempts"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/login_locked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/attempts"
+        android:layout_alignLeft="@+id/attempts"
+        android:layout_alignEnd="@+id/edit_password"
+        android:layout_alignRight="@+id/edit_password"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="57dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:visibility="invisible" />
+
+</RelativeLayout>
