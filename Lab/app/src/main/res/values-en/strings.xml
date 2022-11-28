@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Lab</string>
+
+    <string name="authorization">Authorization</string>
+    <string name="display_user">User:</string>
+    <string name="display_password">Password:</string>
+    <string name="type_in_your_name">type in your name</string>
+    <string name="type_in_your_password">type in your password</string>
+    <string name="login">Login</string>
+    <string name="current_language">Eng</string>
+
+    <string name="insert_text">Type your text here</string>
+    <string name="user_value">user</string>
+    <string name="delete">Delete</string>
+    <string name="add">Add</string>
+</resources>
