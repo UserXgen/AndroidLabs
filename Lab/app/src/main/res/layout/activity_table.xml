@@ -11,8 +11,8 @@
         android:layout_width="358dp"
         android:layout_height="48dp"
         android:layout_marginLeft="36dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="36dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="28dp"
         android:layout_toStartOf="@+id/addEntrie"
         android:hint="@string/insert_text"
         android:textColorHint="#757575"
@@ -21,60 +21,17 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ListView
-        android:id="@+id/entriesList"
-        android:layout_width="312dp"
-        android:layout_height="500dp"
-        android:layout_marginTop="96dp"
-        android:choiceMode="multipleChoice"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.484"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/entrie"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/removeEntrie"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="72dp"
-        android:backgroundTint="@android:color/holo_red_dark"
-        android:onClick="removeEntrie"
-        android:text="@string/delete"
-        app:layout_constraintBottom_toTopOf="@+id/entriesList"
-        app:layout_constraintEnd_toStartOf="@+id/addEntrie"
-        app:layout_constraintHorizontal_bias="0.235"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/entrie"
-        app:layout_constraintVertical_bias="0.291" />
-
     <Button
         android:id="@+id/addEntrie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="44dp"
+        android:layout_marginEnd="40dp"
         android:onClick="addEntrie"
         android:text="@string/add"
-        app:layout_constraintBottom_toTopOf="@+id/entriesList"
+        app:layout_constraintBottom_toTopOf="@+id/acc_table"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/entrie"
-        app:layout_constraintVertical_bias="0.291" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="13dp"
-        android:text="@string/display_user"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/entrie"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.625" />
+        app:layout_constraintVertical_bias="0.413" />
 
     <TextView
         android:id="@+id/textView2"
@@ -92,6 +49,49 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.937" />
+
+    <Button
+        android:id="@+id/removeEntrie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="72dp"
+        android:backgroundTint="@android:color/holo_red_dark"
+        android:onClick="removeEntrie"
+        android:text="@string/delete"
+        app:layout_constraintBottom_toTopOf="@+id/acc_table"
+        app:layout_constraintEnd_toStartOf="@+id/addEntrie"
+        app:layout_constraintHorizontal_bias="0.223"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/entrie"
+        app:layout_constraintVertical_bias="0.413" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="13dp"
+        android:text="@string/display_user"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/entrie"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ListView
+        android:id="@+id/acc_table"
+        android:layout_width="312dp"
+        android:layout_height="450dp"
+        android:layout_marginTop="96dp"
+        android:choiceMode="multipleChoice"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/entrie"
         app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

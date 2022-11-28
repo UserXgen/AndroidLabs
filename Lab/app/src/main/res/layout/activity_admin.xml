@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/activity_admin_scene"
+    tools:context=".AdminActivity">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="38dp"
+        android:layout_marginBottom="13dp"
+        android:text="@string/display_user"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="74dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="42dp"
+        android:layout_marginEnd="114dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@+id/textView3"
+        android:autoText="false"
+        android:text="admin"
+        android:textAlignment="textStart"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/adm_acc_entrie"
+        android:layout_width="358dp"
+        android:layout_height="48dp"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="36dp"
+        android:hint="Введите имя пользователя"
+        android:textColorHint="#757575" />
+
+    <ListView
+        android:id="@+id/acc_table"
+        android:layout_width="300dp"
+        android:layout_height="388dp"
+        android:layout_below="@+id/adm_del"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:choiceMode="multipleChoice" />
+
+    <Button
+        android:id="@+id/adm_del"
+        android:layout_width="106dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/adm_acc_entrie"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="62dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@android:color/holo_red_dark"
+        android:onClick="removeAccount"
+        android:text="@string/delete" />
+</RelativeLayout>

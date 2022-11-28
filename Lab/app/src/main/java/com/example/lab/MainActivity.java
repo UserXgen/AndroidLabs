@@ -26,6 +26,8 @@ public class MainActivity extends Activity {
     private SharedPreferences sharedPref;
     private final String saveLoginKey = "save_login";
 
+    DBHelper dbHelper;
+
     // Число для подсчета попыток залогиниться:
     int numberOfRemainingLoginAttempts = 5;
 
@@ -44,8 +46,8 @@ public class MainActivity extends Activity {
         attempts = (TextView) findViewById(R.id.attempts);
         numberOfAttempts = (TextView) findViewById(R.id.number_of_attempts);
         numberOfAttempts.setText(Integer.toString(numberOfRemainingLoginAttempts));
+        dbHelper = new DBHelper(this);
 
-        //Toast mytoast = new Toast(this);
         Toast.makeText(MainActivity.this,
                 "Переопределение onCreate у MainActivity", Toast.LENGTH_SHORT).show();
         Log.i("AppLogger", "Переопределение onCreate у MainActivity");
@@ -86,22 +88,24 @@ public class MainActivity extends Activity {
         Log.i("AppLogger", "Переопределение onRestart у MainActivity");
     }
 
-    // Обрабатываем нажатие кнопки "Войти":
-    @SuppressLint("SetTextI18n")
     public void login(View view) {
 
         // показываем Toast сообщение об успешном входе:
         String name = username.getText().toString();
         String pass = password.getText().toString();
 
-        if (username.getText().toString().equals("me") &&
-                password.getText().toString().equals("123")) {
+        if(name.equals("admin") && pass.equals("admin")){
+            Intent intent = new Intent(MainActivity.this, AdminActivity.class);
+            startActivity(intent);
+            return;
+        }
+
+        if (dbHelper.checkUsernamePassword(name, pass)) {
             Toast.makeText(getApplicationContext(), "Вход выполнен!",Toast.LENGTH_SHORT).show();
 
             // Выполняем переход на другой экран:
             Intent intent = new Intent(MainActivity.this,TableActivity.class);
-            String intentMessage = username.getText().toString();
-            intent.putExtra("Lab3", intentMessage);
+            intent.putExtra("Lab3", name);
             startActivity(intent);
         }
 
@@ -118,6 +122,13 @@ public class MainActivity extends Activity {
             numberOfAttempts.setText(Integer.toString(numberOfRemainingLoginAttempts));
 
         }
+    }
+
+    public void signUp(View view) {
+
+            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+            startActivity(intent);
+
     }
 
     private void  saveAuthorization(){

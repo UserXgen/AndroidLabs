@@ -1,25 +1,37 @@
 package com.example.lab;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class TableActivity extends MainActivity {
+public class TableActivity extends AppCompatActivity {
 
     ArrayList<String> entries = new ArrayList<String>();
     ArrayList<String> selectedEntries = new ArrayList<String>();
     ArrayAdapter<String> adapter;
     ListView entriesList;
+    String accountName;
+    DBHelper dbHelper;
 
     private SharedPreferences sharedPref;
     private final String saveTableKey = "save_table";
@@ -27,22 +39,23 @@ public class TableActivity extends MainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        restoreLocale();
+        //MainActivity mainActivity = new MainActivity();
+        //mainActivity.restoreLocale();
         setContentView(R.layout.activity_table);
 
-        sharedPref = this.getSharedPreferences("table", Context.MODE_PRIVATE);
-
+        dbHelper = new DBHelper(this);
 
         // добавляем начальные элементы
         Collections.addAll(entries);
 
         Log.i("AppLogger", "Переопределение onCreate у TableActivity");
-        String accountName = getIntent().getExtras().getString("Lab3");
+        accountName = getIntent().getExtras().getString("Lab3");
         TextView textView2 = (TextView) findViewById(R.id.textView2);
         textView2.setText(accountName);
+        sharedPref = this.getSharedPreferences(accountName, Context.MODE_PRIVATE);
 
         // получаем элемент ListView
-        entriesList = findViewById(R.id.entriesList);
+        entriesList = findViewById(R.id.acc_table);
         // создаем адаптер
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice, entries);
         // устанавливаем для списка адаптер
@@ -61,6 +74,13 @@ public class TableActivity extends MainActivity {
                     selectedEntries.remove(entrie);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.table_menu, menu);
+        return true;
     }
 
     @Override
@@ -145,4 +165,73 @@ public class TableActivity extends MainActivity {
 
     }
 
+    public void showChangePasswordDialog(MenuItem menuItem){
+
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+
+        final Dialog dialog = new Dialog(this);
+        //We have added a title in the custom layout. So let's disable the default title.
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //The user will be able to cancel the dialog bu clicking anywhere outside the dialog.
+        dialog.setCancelable(true);
+        //Mention the name of the layout of your custom dialog.
+        dialog.setContentView(R.layout.dialog_table);
+
+        //Initializing the views of the dialog.
+
+
+        final EditText rePassword = dialog.findViewById(R.id.repass);
+        final EditText newPassword = dialog.findViewById(R.id.new_pass);
+        Button changePass = dialog.findViewById(R.id.change_pass_bttn);
+        Button exitDialog = dialog.findViewById(R.id.ch_pass_close_dialog);
+
+        changePass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String repass = rePassword.getText().toString();
+                String pass = newPassword.getText().toString();
+
+                changePassword(repass, pass);
+            }
+        });
+
+        exitDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.getWindow().setLayout((6 * width)/7, height/2);
+        dialog.show();
+    }
+    private void changePassword(String rePass, String pass){
+
+        Log.i("AppLogger", "rePass = " + rePass + " ; pass = " + pass);
+
+        if(rePass.equals("") || pass.equals("")){
+            Toast.makeText(this,
+                    "Ошибка. Есть незаполненные поля.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(!dbHelper.checkUsernamePassword(accountName, rePass)){
+            Toast.makeText(this,
+                    "Ошибка. Неправильный пароль.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (dbHelper.changePassword(accountName, rePass, pass)){
+            Toast.makeText(this,
+                    "Пароль успешно изменён", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this,
+                    "Ошибка при изменении пароля", Toast.LENGTH_SHORT).show();
+        }
+
+        return;
+
+    }
 }
