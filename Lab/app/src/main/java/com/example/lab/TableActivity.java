@@ -3,11 +3,14 @@ package com.example.lab;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -24,6 +27,12 @@ public class TableActivity extends AppCompatActivity {
 
         // добавляем начальные элементы
         Collections.addAll(entries);
+
+        Log.i("AppLogger", "Переопределение onCreate у TableActivity");
+        String accountName = getIntent().getExtras().getString("Lab3");
+        TextView textView2 = (TextView) findViewById(R.id.textView2);
+        textView2.setText(accountName);
+
         // получаем элемент ListView
         entriesList = findViewById(R.id.entriesList);
         // создаем адаптер
@@ -44,6 +53,33 @@ public class TableActivity extends AppCompatActivity {
                     selectedEntries.remove(entrie);
             }
         });
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        Log.i("AppLogger", "Переопределение onStop у TableActivity");
+    }
+    @Override
+    protected void onStart(){
+        super.onStart();
+        Log.i("AppLogger", "Переопределение onStart у TableActivity");
+    }
+    @Override
+    protected void onPause(){
+        super.onPause();
+        Log.i("AppLogger", "Переопределение onPause у TableActivity");
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Log.i("AppLogger", "Переопределение onResume у TableActivity");
+    }
+
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+        Log.i("AppLogger", "Переопределение onRestart у TableActivity");
     }
 
     public void addEntrie(View view){

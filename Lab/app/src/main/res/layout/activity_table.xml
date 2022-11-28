@@ -11,8 +11,8 @@
         android:layout_width="358dp"
         android:layout_height="48dp"
         android:layout_marginLeft="36dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="36dp"
         android:layout_toStartOf="@+id/addEntrie"
         android:hint="Введите текст"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,7 +23,7 @@
     <ListView
         android:id="@+id/entriesList"
         android:layout_width="312dp"
-        android:layout_height="619dp"
+        android:layout_height="500dp"
         android:layout_marginTop="96dp"
         android:choiceMode="multipleChoice"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -43,21 +43,54 @@
         android:text="Удалить"
         app:layout_constraintBottom_toTopOf="@+id/entriesList"
         app:layout_constraintEnd_toStartOf="@+id/addEntrie"
-        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintHorizontal_bias="0.235"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/entrie"
-        app:layout_constraintVertical_bias="0.322" />
+        app:layout_constraintVertical_bias="0.291" />
 
     <Button
         android:id="@+id/addEntrie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="52dp"
+        android:layout_marginEnd="44dp"
         android:onClick="addEntrie"
         android:text="Добавить"
         app:layout_constraintBottom_toTopOf="@+id/entriesList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/entrie"
-        app:layout_constraintVertical_bias="0.322" />
+        app:layout_constraintVertical_bias="0.291" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="13dp"
+        android:text="Пользователь:"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/entrie"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.625" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="124dp"
+        android:layout_marginBottom="10dp"
+        android:autoText="false"
+        android:text="пользователь"
+        android:textAlignment="textStart"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/entrie"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
