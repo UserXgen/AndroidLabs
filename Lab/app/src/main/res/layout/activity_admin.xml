@@ -67,6 +67,5 @@
         android:layout_marginEnd="62dp"
         android:layout_marginBottom="8dp"
         android:backgroundTint="@android:color/holo_red_dark"
-        android:onClick="removeAccount"
         android:text="@string/delete" />
 </RelativeLayout>

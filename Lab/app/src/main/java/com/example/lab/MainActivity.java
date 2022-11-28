@@ -9,6 +9,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ public class MainActivity extends Activity {
     private EditText password;
     private TextView attempts;
     private TextView numberOfAttempts;
+    private Button loginBttn;
 
     private SharedPreferences sharedPref;
     private final String saveLoginKey = "save_login";
@@ -47,6 +49,28 @@ public class MainActivity extends Activity {
         numberOfAttempts = (TextView) findViewById(R.id.number_of_attempts);
         numberOfAttempts.setText(Integer.toString(numberOfRemainingLoginAttempts));
         dbHelper = new DBHelper(this);
+        loginBttn = (Button) findViewById(R.id.button_login);
+
+        loginBttn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginBttn.setEnabled(false);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        login();
+                        loginBttn.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                loginBttn.setEnabled(true);
+                            }
+                        });
+
+                    }
+                }).start();
+            }
+        });
+
 
         Toast.makeText(MainActivity.this,
                 "Переопределение onCreate у MainActivity", Toast.LENGTH_SHORT).show();
@@ -88,7 +112,7 @@ public class MainActivity extends Activity {
         Log.i("AppLogger", "Переопределение onRestart у MainActivity");
     }
 
-    public void login(View view) {
+    public void login() {
 
         // показываем Toast сообщение об успешном входе:
         String name = username.getText().toString();
@@ -97,29 +121,57 @@ public class MainActivity extends Activity {
         if(name.equals("admin") && pass.equals("admin")){
             Intent intent = new Intent(MainActivity.this, AdminActivity.class);
             startActivity(intent);
+
             return;
         }
 
         if (dbHelper.checkUsernamePassword(name, pass)) {
-            Toast.makeText(getApplicationContext(), "Вход выполнен!",Toast.LENGTH_SHORT).show();
+
+            this.runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Вход выполнен!",Toast.LENGTH_SHORT).show();
+                }
+            });
 
             // Выполняем переход на другой экран:
             Intent intent = new Intent(MainActivity.this,TableActivity.class);
             intent.putExtra("Lab3", name);
+
             startActivity(intent);
         }
 
         // В другом случае выдаем сообщение с ошибкой:
         else {
-            Toast.makeText(getApplicationContext(), "Неправильные данные!",Toast.LENGTH_SHORT).show();
+
+            this.runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Неправильные данные!",Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
             numberOfRemainingLoginAttempts--;
             if(numberOfRemainingLoginAttempts == 0)
                 finish();
 
             // Делаем видимыми текстовые поля, указывающие на количество оставшихся попыток:
-            attempts.setVisibility(View.VISIBLE);
-            numberOfAttempts.setVisibility(View.VISIBLE);
-            numberOfAttempts.setText(Integer.toString(numberOfRemainingLoginAttempts));
+
+            attempts.post(new Runnable() {
+                @Override
+                public void run() {
+                    attempts.setVisibility(View.VISIBLE);
+
+                }
+            });
+
+            numberOfAttempts.post(new Runnable() {
+                @Override
+                public void run() {
+                    numberOfAttempts.setVisibility(View.VISIBLE);
+                    numberOfAttempts.setText(Integer.toString(numberOfRemainingLoginAttempts));
+
+                }
+            });
 
         }
     }

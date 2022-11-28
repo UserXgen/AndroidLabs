@@ -190,10 +190,23 @@ public class TableActivity extends AppCompatActivity {
         changePass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String repass = rePassword.getText().toString();
-                String pass = newPassword.getText().toString();
+                changePass.setEnabled(false);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String repass = rePassword.getText().toString();
+                        String pass = newPassword.getText().toString();
+                        changePassword(repass, pass);
+                        changePass.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                changePass.setEnabled(true);
+                            }
+                        });
 
-                changePassword(repass, pass);
+                    }
+                }).start();
+
             }
         });
 
@@ -212,23 +225,51 @@ public class TableActivity extends AppCompatActivity {
         Log.i("AppLogger", "rePass = " + rePass + " ; pass = " + pass);
 
         if(rePass.equals("") || pass.equals("")){
-            Toast.makeText(this,
-                    "Ошибка. Есть незаполненные поля.", Toast.LENGTH_SHORT).show();
+
+            this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(),
+                            "Ошибка. Есть незаполненные поля.", Toast.LENGTH_SHORT).show();
+                }
+            });
+
             return;
         }
 
         if(!dbHelper.checkUsernamePassword(accountName, rePass)){
-            Toast.makeText(this,
-                    "Ошибка. Неправильный пароль.", Toast.LENGTH_SHORT).show();
+
+            this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(),
+                            "Ошибка. Неправильный пароль.", Toast.LENGTH_SHORT).show();
+                }
+            });
+
             return;
         }
 
         if (dbHelper.changePassword(accountName, rePass, pass)){
-            Toast.makeText(this,
-                    "Пароль успешно изменён", Toast.LENGTH_SHORT).show();
+
+            this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(),
+                            "Пароль успешно изменён", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
         } else {
-            Toast.makeText(this,
-                    "Ошибка при изменении пароля", Toast.LENGTH_SHORT).show();
+            this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(),
+                            "Ошибка при изменении пароля", Toast.LENGTH_SHORT).show();
+                }
+            });
+
         }
 
         return;

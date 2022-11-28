@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -12,6 +13,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText username;
     private EditText password;
     DBHelper dbHelper;
+
+    private Button crAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,30 +25,74 @@ public class RegisterActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.enter_password);
         dbHelper = new DBHelper(this);
 
+        crAccount = (Button) findViewById(R.id.add_account);
+
+        crAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                crAccount.setEnabled(false);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        addAccount();
+                        crAccount.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                crAccount.setEnabled(true);
+                            }
+                        });
+                    }
+                }).start();
+            }
+        });
+
     }
 
-    public void addAccount(View view){
+    public void addAccount(){
         String name = username.getText().toString();
         String pass = password.getText().toString();
 
         if(name.equals("") || pass.equals("")){
-            Toast.makeText(this,
-                    "Ошибка. Есть незаполненные поля", Toast.LENGTH_SHORT).show();
+            this.runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(getApplicationContext(),
+                            "Ошибка. Есть незаполненные поля", Toast.LENGTH_SHORT).show();
+                }
+            });
+
             return;
         }
 
         if(dbHelper.checkUsername(name)){
-            Toast.makeText(this,
-                    "Ошибка. Такой пользователь уже существует", Toast.LENGTH_SHORT).show();
+            this.runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(getApplicationContext(),
+                            "Ошибка. Такой пользователь уже существует", Toast.LENGTH_SHORT).show();
+                }
+            });
+
             return;
         }
 
-        if(dbHelper.insertData(name, pass))
-            Toast.makeText(this,
-                    "Пользователь успешно зарегистрирован", Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(this,
-                    "Ошибка регистрации", Toast.LENGTH_SHORT).show();
+        if(dbHelper.insertData(name, pass)) {
+
+            this.runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(getApplicationContext(),
+                            "Пользователь успешно зарегистрирован", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
+        else {
+            this.runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(getApplicationContext(),
+                            "Ошибка регистрации", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
 
 
     }

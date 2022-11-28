@@ -31,6 +31,7 @@ public class AdminActivity extends AppCompatActivity {
     ListView accountsList;
     String accountName;
     DBHelper dbHelper;
+    Button delAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,28 @@ public class AdminActivity extends AppCompatActivity {
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice, accounts);
         // устанавливаем для списка адаптер
         accountsList.setAdapter(adapter);
+
+        delAccount = (Button) findViewById(R.id.adm_del);
+
+        delAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                delAccount.setEnabled(false);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        removeAccount();
+                        delAccount.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                delAccount.setEnabled(true);
+                            }
+                        });
+                    }
+                }).start();
+            }
+        });
+
     }
 
     @Override
@@ -77,16 +100,37 @@ public class AdminActivity extends AppCompatActivity {
 
     }
 
-    public void removeAccount(View view){
+    public void removeAccount(){
         EditText accountET = findViewById(R.id.adm_acc_entrie);
         String login  = accountET.getText().toString();
-        if(dbHelper.deleteUser(login))
-            Toast.makeText(this,
-                    "Пользователь " + login + " успешно удалён", Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(this,
-                    "Ошибка удаления", Toast.LENGTH_SHORT).show();
-        restoreTable();
+        if(dbHelper.deleteUser(login)) {
+            this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(),
+                            "Пользователь " + login + " успешно удалён", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
+        else {
+            this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(),
+                            "Ошибка удаления", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
+
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                restoreTable();
+            }
+        });
+
     }
 
     private void restoreTable()
