@@ -6,7 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +18,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends Activity {
@@ -29,6 +36,50 @@ public class MainActivity extends Activity {
     private final String saveLoginKey = "save_login";
 
     DBHelper dbHelper;
+    final Looper looper = Looper.getMainLooper();
+
+    ThreadTask threadTask;
+
+
+
+    final Handler handler = new Handler(looper) {
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        public void handleMessage(Message msg) {
+
+            ArrayList<String> msgList = (ArrayList<String>)msg.obj;
+
+            // login button
+            if (msg.sendingUid == 1) {
+                switch (msgList.get(0)){
+                    case "AdminActivity":
+                        Intent adminIntent = new Intent(MainActivity.this, AdminActivity.class);
+                        startActivity(adminIntent);
+                        Toast.makeText(getApplicationContext(), "Привет, админ!",Toast.LENGTH_SHORT).show();
+                        break;
+                    case "TableActivity":
+                        Intent intent = new Intent(MainActivity.this,TableActivity.class);
+                        intent.putExtra("Lab3", msgList.get(1));
+                        startActivity(intent);
+                        Toast.makeText(getApplicationContext(), "Вход выполнен!",Toast.LENGTH_SHORT).show();
+                        break;
+
+                    default:
+                        Toast.makeText(getApplicationContext(), "Неправильные данные!",Toast.LENGTH_SHORT).show();
+                        break;
+
+                }
+
+
+            }
+
+            if (msg.sendingUid == 2) {
+
+            }
+            threadTask.setActiveThreadCount(0);
+            loginBttn.setEnabled(true);
+        }
+    };
 
     // Число для подсчета попыток залогиниться:
     int numberOfRemainingLoginAttempts = 5;
@@ -39,6 +90,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         restoreLocale();
         setContentView(R.layout.activity_main);
+
+
 
         sharedPref = this.getSharedPreferences("login", Context.MODE_PRIVATE);
 
@@ -51,25 +104,7 @@ public class MainActivity extends Activity {
         dbHelper = new DBHelper(this);
         loginBttn = (Button) findViewById(R.id.button_login);
 
-        loginBttn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loginBttn.setEnabled(false);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        login();
-                        loginBttn.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                loginBttn.setEnabled(true);
-                            }
-                        });
-
-                    }
-                }).start();
-            }
-        });
+        threadTask = new ThreadTask(handler,getApplicationContext());
 
 
         Toast.makeText(MainActivity.this,
@@ -246,4 +281,16 @@ public class MainActivity extends Activity {
         );
     }
 
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_login:
+                loginBttn.setEnabled(false);
+                String name = username.getText().toString();
+                String pass = password.getText().toString();
+                threadTask.login(name, pass);
+                break;
+
+        }
+    }
 }
+

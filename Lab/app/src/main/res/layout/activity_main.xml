@@ -89,6 +89,7 @@
         android:layout_toEndOf="@+id/attempts"
         android:backgroundTint="@android:color/holo_blue_light"
         android:text="@string/login"
+        android:onClick="onClick"
         android:textColor="@color/white" />
 
     <TextView
